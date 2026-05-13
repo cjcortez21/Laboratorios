@@ -1,359 +1,291 @@
-﻿using System.Diagnostics.Metrics;
-using static System.Net.WebRequestMethods;
+﻿// proyecto 01 - Carlos Cortez - 2026
+Console.WriteLine("Proyecto 01 Car wash");
+Console.WriteLine("Carlos Cortez ");
+Console.WriteLine("------------------------------");
 
-namespace proyecto02_welcometolatam_Carlos_Cortez
+int opcion = 0;
+bool ticketactivo = false;
+bool extrarinesactivo = false;
+int totalrecaudado = 0;
+int costextrarines = 0;
+int carrosatendidos = 0;
+int carrosconextrarines = 0;
+int costbase = 0;
+int desc = 0;
+int totcobrar = costbase+costextrarines-desc;
+int classcar = 0;
+int sizerines = 0;
+string placa = "";
+int numcliente = 0;
+do
 {
-    internal class Program
+    Console.WriteLine("Menu de opciones");
+    Console.WriteLine("1 crear ticket de entrada");
+    Console.WriteLine("2 lavado de llantas y rines");
+    Console.WriteLine("3 consultar monto a cobrar");
+    Console.WriteLine("4 salida y promoción");
+    Console.WriteLine("5 salida del programa");
+    opcion = Convert.ToInt32(Console.ReadLine());
+
+    switch (opcion)
     {
-    public static double dineroincial =  0;
-    public static double dineroactual = 0;
-    public static int numempleados = 0;   
-    public static double sueldoempleado= 0;
-    public static int messimular = 0;
-    public static int mesrestantes = 0;
-    public static int mesessimulados = 0;
-    public static int filas = 0;
-    public static int columnas = 0;
-    public static int opmenu = 0;
-    public static int opsembradio = 0;
-    public static int respuesta = 0;
-    public static double dinerofinal = 0;
-    public static double totingreso = 0;
-    public static double totegreso = 0;
-    public static int mesessimuladoss = 0;
-    public static int sembradasmaiz = 0;
-    public static int sembradaslechuga = 0;
-    public static int sembradaszanahoria = 0;
-    public static int cultivadaszanahoria = 0;
-    public static int cultivadasmaizs = 0;
-    public static int cultivadaslechugas = 0;
-        static void Main(string[] args)
-        {
-
-
-            Console.WriteLine("hola bienvenido a latam simulator, \r\ningrese sus datos inciales \r\npara comenzar la partida");
-
-            Console.WriteLine("ingrese el dinero inicial");
-            dineroincial = Convert.ToDouble(Console.ReadLine());
-            dineroactual = dineroincial;
-
-            Console.WriteLine("ingrese el numero de empleados que tiene su empresa");
-            numempleados = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("ingrese el sueldo de cada empleado");
-            sueldoempleado = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("ingrese el numero de meses que desea simular");
-            messimular = Convert.ToInt32(Console.ReadLine());
-            
-            Console.WriteLine("perfecto ahora deme las dimensioones de su terreno para sembrar"); 
-
-            Console.WriteLine("ingrese el numero de filas");
-            filas = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("ingrese el numero de columnas");
-            columnas = Convert.ToInt32(Console.ReadLine());
-
-
-            sembradio [,] cosechas = new sembradio[filas, columnas];
-
-            for(int i = 0; i < filas; i++)
+        case 1:
+           if (ticketactivo == false)
             {
-                for(int k = 0; k < columnas; k++)
+                // while para repetir desde este punto si no se ingresa la placa correctamente
+                while (placa.Length != 6)
                 {
-                    cosechas[i, k] = new sembradio("V", 0, 0, 0, 0, false, true);
+                    Console.WriteLine("Ingrese el numero de placa del vehiculo de 6 digitos sin espacios");
+                    placa = Console.ReadLine();
+
+                    // validación de placa , debe tener 6 caracteres sin espacios
                 }
+
+                    if (placa.Length == 6)
+                    {
+                        Console.WriteLine("Ticket de entrada creado para el vehiculo con placa: " + placa);
+                        ticketactivo = true;
+                        carrosatendidos++;
+
+                    
+
+                    // ingreso de tipo de vehiculo 
+
+                    while (classcar != 1 && classcar != 2)
+                    {
+                        Console.WriteLine("ingrese el tipo de vehiculo ");
+                    Console.WriteLine("1=sedan, 2=pickup/SUV");
+                    classcar = Convert.ToInt32(Console.ReadLine());
+                    
+
+
+                        if (classcar == 1)
+                        {
+                            costbase = 50;
+
+                            Console.WriteLine("ingrese su nombre");
+                            string username = Console.ReadLine();
+
+                            Console.WriteLine("ticket creado " + username + "  costo del lavado de sedan " + costbase);
+                            ticketactivo = true;
+                            extrarinesactivo = false;
+                            costextrarines = 0;
+                            totcobrar = costbase + costextrarines - desc;
+                        }
+                        else if (classcar == 2)
+                        {
+                            costbase = 70;
+                            Console.WriteLine("ingrese su nombre");
+                            string username = Console.ReadLine();
+
+                            Console.WriteLine("ticket creado " + username + "  costo del lavado de SUV " + costbase);
+                            ticketactivo = true;
+                            extrarinesactivo = false;
+                            costextrarines = 0;
+                            totcobrar = costbase + costextrarines - desc;
+                        }
+                        else
+                        {
+                            Console.WriteLine("tipo de vehiculo no valido repita el proceso");
+
+                        }
+
+
+
+                    }
+
+
+                }
+
+                    else // no ingreso placa correctamente , no se puede crear el ticket
+                    {
+                    Console.WriteLine("Numero de placa invalido, debe tener 6 digitos sin espacios");
+                    }
+
+            }
+            else // si ya hay un ticket activo, no se puede crear otro
+            {
+                Console.WriteLine("Ya hay un ticket activo, no puede crear otro ");
             }
 
-            do
-            {
-                Console.WriteLine("Bienvenido, que accion desea hacer\r\n1. sembrar \r\n 2. Fertilizar  \r\n3. Consultar parcela \r\n4. avanzar mes \r\n5. salir");
-                opmenu = Convert.ToInt32(Console.ReadLine());
-                switch (opmenu)
+
+
+
+
+
+         
+
+
+            break;
+        case 2:
+            // proceso de lavado de rines 
+            if (ticketactivo == true) {
+                // validacion de ticket rines 
+                if (extrarinesactivo == true)
                 {
-                    case 1:
-
-                        // aqui se hace el ciclo si el usurario pone un parcela que no existe y le vuelve a preguntar
-                        bool messi = false;
-                        do
-                        {
-                            Console.WriteLine("Ingrese fila y columnas de parcela en la cual ingresara el cultivo: ");
-                            filas = Convert.ToInt32(Console.ReadLine());
-
-                            columnas = Convert.ToInt32(Console.ReadLine());
-
-                            if (filas < 0 || filas >= cosechas.GetLength(0) || columnas < 0 || columnas >= cosechas.GetLength(1))
-                            {
-                                Console.WriteLine("parcela no valida, ingrese de nuevo");
-
-                            }
-                            else
-                            {
-                                if (cosechas[filas, columnas].vacia == false)
-                                {
-                                    Console.WriteLine("La parcela ya tiene una siembra, ingrese de nuevo otra ");
-                                }
-                                else
-                                {
-                                    messi = true;
-                                }
-                            }
-                        } while (messi == false);
-                        // termina el ciclo de validacion de parcela
-
-                        do
-                        {
-                            // el usuario elige le tipo de cultivo que desea sembrar y se asignan las caracteristicas a la parcela
-                            Console.WriteLine("Ingrese el tipo de cultivo que desea sembrar: \r\n1. Maiz \r\n2. Lechuga \r\n3. Zanahoria");
-                            opsembradio = Convert.ToInt32(Console.ReadLine());
-
-                            if (opsembradio == 1)
-                            {
-                                cosechas[filas, columnas].tipodecultivo = "M";
-                                cosechas[filas, columnas].mesescrecer = 3;
-                                cosechas[filas, columnas].preciocosecha = 700;
-                                cosechas[filas, columnas].vacia = false;
-                                cosechas[filas, columnas].mesesrestantes = 3;
-                                sembradasmaiz += 1;
-                                Console.WriteLine("sembrado exitoso");
-                            }
-                            else if (opsembradio == 2)
-                            {
-                                cosechas[filas, columnas].tipodecultivo = "L";
-                                cosechas[filas, columnas].mesescrecer = 1;
-                                cosechas[filas, columnas].preciocosecha = 200;
-                                cosechas[filas, columnas].vacia = false;
-                                cosechas[filas, columnas].mesesrestantes = 1;
-                                sembradaslechuga += 1;
-                                Console.WriteLine("sembrado exitoso");
-                            }
-                            else if (opsembradio == 3)
-                            {
-                                cosechas[filas, columnas].tipodecultivo = "Z";
-                                cosechas[filas, columnas].mesescrecer = 2;
-                                cosechas[filas, columnas].preciocosecha = 500;
-                                cosechas[filas, columnas].vacia = false;
-                                cosechas[filas, columnas].mesesrestantes = 2;
-                                sembradaszanahoria += 1;
-                                Console.WriteLine("sembrado exitoso");
-                            }
-                            else
-                            {
-                                Console.WriteLine("ingrese una opcion valida ");
-                            }
+                    Console.WriteLine("Ya se ha agregado el lavado de llantas y rines. desea cancelarlo?");
+                    string cancelrines = Console.ReadLine();
+                    // validacion de cancelacion de rines
+                    if (cancelrines == "si" || cancelrines == "Si")
+                    {
+                        extrarinesactivo = false;
+                        costextrarines = 0;
+                        sizerines = 0;
+                        carrosconextrarines--;
+                        Console.WriteLine("Lavado de llantas y rines cancelado");
+                    }
+                    else if (cancelrines == "no" || cancelrines == "No")
+                    {
+                        Console.WriteLine("Lavado de llantas y rines mantenido");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Opcion no valida, por favor ingrese si o no");
+                    }
 
 
-                            
-                        } while (opsembradio != 1 &&  opsembradio != 2 &&  opsembradio != 3 );
-                        break;
-                    // parte de fertilizar
-                    case 2:
-                        {
-                            // se le pregutna parcela a ferttilizar y se valida que exista y no tenga fertilizante
-                            // cristiano es de uso para validar que sea correcta la parcela a fertilizar, si no es correcta vuelve a preguntar
-                            Console.WriteLine("que parcela desea fertilizar");
-                            bool cristiano = false;
-                            do
-                            {
-                                Console.WriteLine("Ingrese fila y columnas de parcela en la cual ingresara el cultivo: ");
-                                filas = Convert.ToInt32(Console.ReadLine());
-
-                                columnas = Convert.ToInt32(Console.ReadLine());
-
-                                if (cosechas[filas, columnas].vacia == true)
-                                {
-                                    Console.WriteLine("parcela no tiene siembra no se puede fertilizar");
-
-                                }
-                                else
-                                {
-                                    if (cosechas[filas, columnas].fertilizante == true)
-                                    {
-                                        Console.WriteLine("La parcela ya tiene fertilizante, ingrese de nuevo otra ");
-                                    }
-                                    else
-                                    {
-                                        cristiano = true;
-                                    }
-                                }
-
-                            } while (cristiano == false);
-
-                            // se verifica que tenga fondos para poder fertilizar 
-                            if (dineroactual < 50)
-                            {
-                                Console.WriteLine("no tienes suficiente dinero para fertilizar esta parcela");
-                                break;
-                            }
-                            // si tiene fondos agrega el fertilizante
-                            cosechas[filas, columnas].fertilizante = true;
-                            cosechas[filas, columnas].preciocosecha = cosechas[filas, columnas].preciocosecha * 1.1;
-                            Console.WriteLine("agregado fertilizate a la casilla que corresponde ");
-                            dineroactual = dineroactual - 50;
-                            totegreso += 50;
-                            // a las parcelas de al lado si cumplen con las condiciones se les agrega tambien a ellos 
-
-                           
-                                if ((filas - 1 >= 0))
-                                {
-                                    if ((cosechas[filas - 1, columnas].vacia == false))
-                                    {
-                                        if ((cosechas[filas - 1, columnas].fertilizante == false))
-                                        {
-                                            cosechas[filas - 1, columnas].fertilizante = true;
-                                            cosechas[filas - 1, columnas].preciocosecha = cosechas[filas - 1, columnas].preciocosecha * 1.1;
-                                            Console.WriteLine("agregado fertilizate a la parcela de la izquierda ");
-                                        }
-                                    }
-
-                                }
-                                if ((filas + 1 < cosechas.GetLength(0)))
-                                {
-                                    if ((cosechas[filas + 1, columnas].vacia == false))
-                                    {
-                                        if ((cosechas[filas + 1, columnas].fertilizante == false))
-                                        {
-                                            cosechas[filas + 1, columnas].fertilizante = true;
-                                            cosechas[filas + 1, columnas].preciocosecha = cosechas[filas + 1, columnas].preciocosecha * 1.1;
-                                            Console.WriteLine("agregado fertilizate a la parcela de la izquierda ");
-                                        }
-                                    }
-                                }
-                            
-                            else { }
-                            
-                        }
-                        // inicio de caso 3 y finalización del 2
-                            break;
-                    case 3:
-                        // el usuario ingresa la casilla que debe consultar 
-                        Console.WriteLine("que parcela desea consultar");
-
-                        Console.WriteLine("Ingrese fila y columnas de la parcela a consultar ");
-                        do
-                        {
-                            filas = Convert.ToInt32(Console.ReadLine());
-
-                            columnas = Convert.ToInt32(Console.ReadLine());
-
-                            if (filas < 0 || filas >= cosechas.GetLength(0) || columnas < 0 || columnas >= cosechas.GetLength(1))
-                            {
-                                Console.WriteLine("parcela no valida, ingrese de nuevo");
-                            }
-                            else
-                            { }
-                        } while (filas < 0 || filas >= cosechas.GetLength(0) || columnas < 0 || columnas >= cosechas.GetLength(1));
-                       // se le brindan los datos
-                        Console.WriteLine("tipo de siembra " + cosechas[filas, columnas].tipodecultivo);
-                        Console.WriteLine("edad de la siembra " + cosechas[filas, columnas].edad);
-                        Console.WriteLine("meses que debe pasar para crecer " + cosechas[filas, columnas].mesescrecer);
-                        Console.WriteLine("meses restantes para crecer " + cosechas[filas, columnas].mesesrestantes);
-                        Console.WriteLine("precio de la cosecha " + cosechas[filas, columnas].preciocosecha);
-                        Console.WriteLine("tiene fertilizante? " + cosechas[filas, columnas].fertilizante);
-                        // se agrega una consulta resue
-                        Console.WriteLine("desea ver un resumen de todas las parcelas? \r\n1. si \r\n2. no");
-                        respuesta = Convert.ToInt32(Console.ReadLine());
-                        if (respuesta == 1)
-                        {
-                            for (int i = 0; i < cosechas.GetLength(0); i++)
-                            {
-                                for (int k = 0; k < cosechas.GetLength(1); k++)
-                                {
-                                    Console.Write(" |" + cosechas[i, k].tipodecultivo + " |");
-                                }
-                                Console.WriteLine("");
-                            }
-                        }
-                        else { }
-
-
-                        break;
-                    case 4:
-
-                        // aqui se realiza el avanzado de mes y recolecta de las cosechas
-                        Console.WriteLine("avanzando mes");
-                        if (dineroactual < 0)
-                        {
-                            Console.WriteLine("no tienes dinero para pagar a tus empleados, por lo finalizamos el juego");
-                            opmenu = 5;
-                            break;
-                        }
-                        mesrestantes += 1;
-
-                        for (int i = 0; i < cosechas.GetLength(0); i++)
-                        {
-                            for (int j = 0; j < cosechas.GetLength(1); j++)
-                            {
-                                if (cosechas[i, j].vacia == false)
-                                {
-                                    cosechas[i, j].edad += 1;
-                                    cosechas[i, j].mesesrestantes -= 1;
-                                    if (cosechas[i, j].mesesrestantes == 0)
-                                    {
-                                        dineroactual += cosechas[i, j].preciocosecha;
-                                        totingreso += cosechas[i, j].preciocosecha;
-                                        // esto es para el registro de que se cultivo
-                                        if (cosechas[i, j].tipodecultivo == "M")
-                                        {
-                                            cultivadasmaizs += 1;
-                                        }
-                                        else if (cosechas[i, j].tipodecultivo == "L")
-                                        {
-                                            cultivadaslechugas++;
-                                        }
-                                        else if (cosechas[i, j].tipodecultivo == "Z")
-                                        {
-                                            cultivadaszanahoria += 1;
-                                        }
-                                        // los datos que se expresan y se reincia la parcela 
-                                        Console.WriteLine("se ha cosechado una parcela en la fila " + i + " y columna " + j);
-                                        Console.WriteLine("dinero ganado" + cosechas[i, j].preciocosecha);
-                                        cosechas[i, j] = new sembradio("V", 0, 0, 0, 0, false, true);
-                                        dineroactual = dineroactual - (sueldoempleado * numempleados);
-                                        totegreso += (sueldoempleado * numempleados);
-
-
-                                    }
-                                }
-                                else { }
-
-                            }
-
-                        }
-                        // opciones si cumple condiciones 
-                        if (dineroactual < 0)
-                        {
-                            Console.WriteLine("no tienes dinero para pagar a tus empleados, por lo finalizamos el juego");
-                            opmenu = 5;
-                        }
-                        if (mesrestantes == messimular)
-                        {
-                            Console.WriteLine("se han cumplido los meses a simular, por lo tanto finalizamos el juego");
-                            opmenu = 5;
-                        }
-                            break;
-                    case 5:
-                        Console.WriteLine("gracias por jugar");
-                        break;
-                    default:
-                        Console.WriteLine("opcion no valida");
-                        break;
                 }
+                else
+                {
+                    // opciones de lavado de rines
+                    while (sizerines < 12 || sizerines > 22)
+                    { 
+
+                    Console.WriteLine("ingrese el tamaño de su rin ");
+                    sizerines = Convert.ToInt32(Console.ReadLine());
+
+                    if (sizerines >= 12 && sizerines <= 16)
+                    {
+                        costextrarines = 30;
+                        extrarinesactivo = true;
+                        Console.WriteLine("Lavado de llantas y rines agregado, costo adicional " + costextrarines);
+                        carrosconextrarines++;
+                    }
+
+                    else if (sizerines >= 17 && sizerines <= 19)
+                    {
+                        costextrarines = 40;
+                        extrarinesactivo = true;
+                        Console.WriteLine("Lavado de llantas y rines agregado, costo adicional " + costextrarines);
+                        carrosconextrarines++;
+                    }
+
+                    else if (sizerines >= 20 && sizerines <= 22)
+                    {
+                        costextrarines = 60;
+                        extrarinesactivo = true;
+                        carrosconextrarines++;
+                        Console.WriteLine("Lavado de llantas y rines agregado, costo adicional " + costextrarines);
+
+                    }
+                    else // si el tamaño de rin no es valido
+                    {
+
+                        Console.WriteLine("Tamaño de rin no valido, ingrese un numero valido");
+                    }
+
+                }
+
+                    }
+
             }
-            // termina el codigo y da los datos de finalización del juego
-            while (opmenu != 5);
-            dinerofinal = dineroactual;
-                Console.WriteLine("dinero inicial: " + dineroincial);
-                Console.WriteLine("dinero final: " + dinerofinal);
-                Console.WriteLine("total ingresos: " + totingreso);
-                Console.WriteLine("total egresos: " + totegreso);
-                Console.WriteLine("parcela sembradas de maiz: " + sembradasmaiz);
-                Console.WriteLine("parcela sembradas de lechuga: " + sembradaslechuga);
-                Console.WriteLine("parcela sembradas de zanahoria: " + sembradaszanahoria);
-                Console.WriteLine("parcela cultivadas de maiz: " + cultivadasmaizs);
-                Console.WriteLine("parcela cultivadas de lechuga: " + cultivadaslechugas);
-                Console.WriteLine("parcela cultivadas de zanahoria: " + cultivadaszanahoria);
 
 
-        }
+            else { 
+            Console.WriteLine("No hay un ticket activo, por favor cree un ticket de entrada primero");
+            }
+
+                break;
+
+        case 3:
+             if (ticketactivo == true)
+            // proceso de consulta de monto a cobrar
+            {
+                totcobrar = costbase + costextrarines - desc;
+                Console.WriteLine("El monto a cobrar es: " + totcobrar);
+            }
+          else {  
+                Console.WriteLine("No hay un ticket activo, por favor cree un ticket de entrada primero");
+            }
+            break;
+
+
+        case 4:
+
+            if (ticketactivo == true) {
+
+                // proceso de salida y promoción
+                while (numcliente < 1 || numcliente > 3)
+                {
+                    Console.WriteLine("ingrese un numero del 1 al 3 para la promo ");
+                    numcliente = Convert.ToInt32(Console.ReadLine());
+                    if (numcliente < 1 || numcliente > 3)
+                    {
+                        Console.WriteLine("Numero no valido, intente de nuevo");
+                    }
+                }
+              
+                // lectura de numero para promocion 
+                if (numcliente >= 1 && numcliente <= 3)
+                    {
+                    Random numrandom = new Random();
+                    int numeroRandom = numrandom.Next(1, 4);
+
+                    if (numcliente == numeroRandom)
+                    {
+                        desc = 20;
+                        totcobrar = costbase + costextrarines - desc;
+                        totalrecaudado += totcobrar;
+                        Console.WriteLine("Felicidades, ha ganado un descuento de 20Q, su total a pagar es: " + totcobrar);
+
+                    }
+                    else
+                    {
+                        desc = 0;
+                        totcobrar = costbase + costextrarines - desc;
+                        totalrecaudado += totcobrar;
+                        Console.WriteLine("Lo siento, no ha ganado un descuento, su total a pagar es: " + totcobrar);
+                   
+                    }
+                    // reinicio de variables para el siguiente cliente
+                    ticketactivo = false;
+                    extrarinesactivo = false;
+                    costextrarines = 0;
+                    costbase = 0;
+                    desc = 0;
+                    classcar = 0;
+                    sizerines = 0;
+                    placa = "";
+
+                }
+
+                    else
+                    {
+                        Console.WriteLine("Numero no valido, intente de nuevo");
+                }
+
+               
+            }
+
+
+            break; 
+
+
+        case 5:
+            totalrecaudado += totcobrar;
+            break; 
+
+        default:
+            // no se ingreso una opcion valida
+            Console.WriteLine("Opcion no valida, por favor ingrese una opcion del 1 al 5");
+            break;
     }
+
+
 }
+while (opcion != 5);
+
+// resumen final del programa al salir
+Console.WriteLine("Gracias por usar el programa, total recaudado: " + totalrecaudado);
+Console.WriteLine(" Total de carros atendidos: " + carrosatendidos);
+Console.WriteLine(" Total de carros con lavado de llantas y rines: " + carrosconextrarines);
